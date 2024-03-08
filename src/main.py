@@ -1,5 +1,5 @@
 from flask import Flask, request
-from model import get_predicted_ratings
+from get_predicted_ratings import get_predicted_ratings
 
 app = Flask(__name__)
 
