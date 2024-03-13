@@ -1,7 +1,10 @@
 import json
+import random
+from sys import argv
 import seaborn as sb
 import pandas as pd
 import matplotlib.pyplot as plt
+from data_splitter import split_data, separate_labels
 
 
 def load_data(path: str) -> list[dict]:
@@ -24,7 +27,10 @@ def flatten(data: list[list[dict]]) -> list[dict]:
 			list[dict]: flattened list of points
 		"""
 		# Flatten the data
-		return [sublist for l in data for sublist in l]
+
+		newData = [sublist for l in data for sublist in l]
+		random.shuffle(newData)
+		return newData
 
 
 def process_data(data: list[dict]) -> list[dict]:
@@ -83,5 +89,13 @@ data = load_data('data.json')
 # balanced data
 balanced_data = process_data(data)
 
-make_plot([data, balanced_data])
+print(argv)
 
+if(len(argv) >= 2 and argv[1] == "plot"):
+	make_plot([data, balanced_data])
+
+data, labels = separate_labels(balanced_data)
+x_train, x_test, y_train, y_test = split_data(data, labels)
+
+print(f"Training data: {len(x_train)}")
+print(f"Test data: {len(x_test)}")
