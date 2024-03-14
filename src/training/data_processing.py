@@ -4,7 +4,8 @@ from sys import argv
 import seaborn as sb
 import pandas as pd
 import matplotlib.pyplot as plt
-from data_splitter import split_data, separate_labels
+
+from .data_splitter import split_data, separate_labels
 
 
 def load_data(path: str) -> list[dict]:
@@ -26,18 +27,17 @@ def flatten(data: list[list[dict]]) -> list[dict]:
 		Returns:
 			list[dict]: flattened list of points
 		"""
-		# Flatten the data
 
 		newData = [sublist for l in data for sublist in l]
 		random.shuffle(newData)
 		return newData
 
 
-def process_data(data: list[dict]) -> list[dict]:
+def balance_data(data: list[dict]) -> list[dict]:
 		""" Balances the amount of each rating by copying the data 
 		for each rating to make the ratings more balanced.
 		Args:
-			data (list[dict]): training data
+			data (list[dict]): training datas
 			
 		Returns:
 			list[dict]: list of points
@@ -63,11 +63,14 @@ def process_data(data: list[dict]) -> list[dict]:
 
 		return data
 
+def make_plot(data: list[list[dict]]) -> tuple[plt.Figure, list[plt.Axes]]: # pragma: no cover
+		"""Plots the distribution of the ratings before and after balancing.
 
-def make_plot(data) -> tuple[plt.Figure, list[plt.Axes]]:
-		""" Plots point distribution with Seaborn	
+		Args:
+				data (list[list[dict]]): list of points
+
 		Returns:
-			tuple[plt.Figure, list[plt.Axes]]: Illustration of the point distribution
+				tuple[plt.Figure, list[plt.Axes]]: figure and axes
 		"""
 		# Plotting with Seaborn
 		fig, axes = plt.subplots(1, 2, sharex=True, figsize=(10,5))
@@ -80,14 +83,14 @@ def make_plot(data) -> tuple[plt.Figure, list[plt.Axes]]:
 				sb.histplot(df['points'], kde=False, ax=axes[i], bins=5)
 				axes[i].set_xlabel('Rating')
 				axes[i].set_ylabel('Count')
-    
+		
 		plt.show()
 		return fig, axes
 
 # non-balanced data
 data = load_data('data.json')
 # balanced data
-balanced_data = process_data(data)
+balanced_data = balance_data(data)
 
 print(argv)
 
