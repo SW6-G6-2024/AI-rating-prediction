@@ -44,3 +44,11 @@ To add dependencies, just install them with pip in your virtual environment. Onc
 ```py
 pip freeze > requirements.txt
 ```
+
+## Dependencies
+- <strong>Flask</strong> - Web framework for API endpoints
+- <strong>PyTorch</strong> - Tensor used for training AI model
+- <strong>NumPy</strong> - Fast scientific computing
+- <strong>Pandas</strong> - Data analysis tool
+- <strong>Seaborn</strong> - Data visualization tool
+- <strong>Pytest</strong> - Testing library
