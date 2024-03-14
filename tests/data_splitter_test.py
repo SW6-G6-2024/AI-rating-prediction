@@ -33,9 +33,9 @@ def test_separate_labels_failure():
 				{"points": 4, "text": "This is a test"},
 				{"points": 5, "text": "This is a test"}
 		]
-		with pytest.raises(ValueError) as err:
+		with pytest.raises(KeyError) as err:
 				new_data, labels = separate_labels(data)
-				assert str(err.value) == "No points in entry"
+				assert str(err.value) == "points"
 		
 		data = [
 				{"points": 1, "text": "This is a test"},

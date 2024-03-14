@@ -23,10 +23,6 @@ def separate_labels(data: list[dict]) -> tuple[list[dict], list[int]]:
 			tuple: data, labels
 		"""
 		new_data = data.copy()
-	
-		for entry in new_data:
-				if "points" not in entry:
-						raise ValueError('No points in entry')
 		
 		labels = [entry["points"] for entry in new_data]
   
@@ -36,7 +32,18 @@ def separate_labels(data: list[dict]) -> tuple[list[dict], list[int]]:
 					del entry["points"]
      
 		for label in labels:
-				if not isinstance(label, int):
-						raise ValueError('Label must be an integer')
+				check_type(label, int)
 	
 		return new_data, labels
+
+
+def check_type(data, type: type):
+		""" Checks the type of the data.
+		Args:
+			data (list): data to check
+			type (type): type to check for
+		Returns:
+			bool: True if the type is correct
+		"""
+		if not isinstance(data, type):
+						raise ValueError('Label must be an integer')
