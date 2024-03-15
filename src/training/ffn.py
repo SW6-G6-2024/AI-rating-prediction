@@ -1,7 +1,7 @@
 from torch import nn
 
 class RatingModel(nn.Module):
-  def __init__(self, input_size, output_size):
+  def __init__(self, input_size, output_size=1):
     super(RatingModel, self).__init__()
     # define the layers
     self.l1 = nn.Linear(input_size, 10)
