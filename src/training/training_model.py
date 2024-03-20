@@ -1,3 +1,4 @@
+
 import numpy as np
 import torch
 from ffn import RatingModel
@@ -82,4 +83,4 @@ def evaluate_model(model, data_loader):
 optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
 
 # Train the model
-train_model(model, criterion, train_loader, optimizer)
+# train_model(model, criterion, train_loader, optimizer)
