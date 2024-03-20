@@ -1,21 +1,20 @@
 from torch import nn
 
 class RatingModel(nn.Module):
-  def __init__(self, input_size, output_size=1):
-    super(RatingModel, self).__init__()
-    # define the layers
-    self.l1 = nn.Linear(input_size, 10)
-    self.dropout = nn.Dropout(0.2)
-    self.relu = nn.ReLU()
-    self.l2 = nn.Linear(10, 5)
-    self.l3 = nn.Linear(5, output_size)
+  def __init__(self, input_size, output_size):
+        super(RatingModel, self).__init__()
+        self.fc1 = nn.Linear(input_size, 64)  # Input features: 13, Output features: 64
+        self.relu = nn.ReLU()          # ReLU activation function
+        self.dropout = nn.Dropout(0.2) # Dropout with 20% probability
+        self.fc2 = nn.Linear(64, 32)  # Input features: 64, Output features: 32
+        self.fc3 = nn.Linear(32, output_size)    # Input features: 32, Output features: 5 (number of classes)
 
   def forward(self, x):
-    output = self.l1(x)
-    output = self.dropout(output)
-    output = self.relu(output)
-    output = self.l2(output)
-    output = self.dropout(output)
-    output = self.relu(output)
-    output = self.l3(output)
-    return output
+      x = self.fc1(x)
+      x = self.relu(x)
+      x = self.dropout(x)
+      x = self.fc2(x)
+      x = self.relu(x)
+      x = self.dropout(x)
+      x = self.fc3(x)
+      return x
