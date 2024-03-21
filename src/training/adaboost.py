@@ -36,12 +36,12 @@ print("Test Accuracy:", test_accuracy * 100)
 
 # plot confusion matrix
 cm = confusion_matrix(y_test, ada_test_pred)
-plt.figure(figsize=(10, 7))
-sns.heatmap(cm, annot=True, fmt='d', cmap='Oranges', cbar=False)
+plt.figure(figsize=(10, 9))
+sns.heatmap(cm, annot=True, fmt='d', cmap='Oranges', cbar=True)
 plt.xticks(np.arange(len(cm))+0.5, np.arange(1, len(cm)+1))
 plt.yticks(np.arange(len(cm))+0.5, np.arange(1, len(cm)+1))
 plt.title('AdaBoost validation confusion matrix')
-plt.xlabel(f'Predicted \n\n Test Accuracy: {test_accuracy*100:.5f}%, Training Accuracy: {train_accuracy*100:.5f}%\n')
+plt.xlabel(f'Predicted\n\n Test Accuracy: {test_accuracy*100:.5f}%\nTraining Accuracy: {train_accuracy*100:.5f}%\n')
 plt.ylabel('Actual')
 
 # Create the 'images' folder if it doesn't exist
@@ -52,7 +52,7 @@ if not os.path.exists(images_folder):
 
 # Save the plot to the images folder
 try:
-    plt.savefig(os.path.join(images_folder, 'ada_confusion_matrix.png'))
+    plt.savefig(os.path.join(images_folder, 'ada_confusion_matrix.pdf'), format='pdf')
 except:
     print("Could not save the AdaBoost confusion matrix plot.")
 else:

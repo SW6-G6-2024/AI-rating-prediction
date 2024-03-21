@@ -1,7 +1,7 @@
 from data_processing import process_data
 from sklearn.preprocessing import StandardScaler
 from keras import Sequential
-from keras.layers import Dense, Dropout
+from keras.layers import Dense, Dropout, Input
 from matplotlib import pyplot as plt
 from keras.callbacks import EarlyStopping
 from sklearn.metrics import confusion_matrix
@@ -21,7 +21,8 @@ x_test_scaled = scaler.transform(x_test)
 
 # init FFNN model
 model = Sequential()
-model.add(Dense(64, activation='relu', input_shape=(x_train_scaled.shape[1],)))
+model.add(Input(shape=(x_train_scaled.shape[1],))) # resolves warning
+model.add(Dense(64, activation='relu'))
 model.add(Dropout(0.2))
 model.add(Dense(32, activation='relu'))
 model.add(Dropout(0.2))
@@ -47,15 +48,25 @@ history = model.fit(
     callbacks=[early_stopping]
 )
 
+# Evaluate the model
+train_loss, train_accuracy = model.evaluate(x_train_scaled, y_train, verbose=0)
+print("Training Accuracy:", train_accuracy)
+print("Training Loss:", train_loss)
+
+# Evaluate the model on test data
+test_loss, test_accuracy = model.evaluate(x_test_scaled, y_test, verbose=0)
+print("Test Accuracy:", test_accuracy)
+print("Test Loss:", test_loss)
+
 
 # Plot training & validation loss values
-plt.figure(figsize=(12, 6))
+plt.figure(figsize=(12, 7))
 # Plot loss
 plt.subplot(1, 2, 1)
 plt.plot(history.history['loss'], label='Train')
 plt.plot(history.history['val_loss'], label='Test')
 plt.title('FFNN Loss')
-plt.xlabel('Epoch')
+plt.xlabel(f'Epoch\n\nTrain Loss: {train_loss*100:.5f}%\nTest Loss: {test_loss*100:.5f}%')
 plt.ylabel('Loss')
 plt.legend()
 
@@ -64,7 +75,7 @@ plt.subplot(1, 2, 2)
 plt.plot(history.history['accuracy'], label='Train')
 plt.plot(history.history['val_accuracy'], label='Test')
 plt.title('FFNN Accuracy')
-plt.xlabel('Epoch')
+plt.xlabel(f'Epoch\n\nTrain Accuracy: {train_accuracy*100:.5f}%\nTest Accuracy: {test_accuracy*100:.5f}%')
 plt.ylabel('Accuracy')
 plt.legend()
 
@@ -77,7 +88,7 @@ if not os.path.exists(images_folder):
 
 # Save the plot to the images folder
 try:
-    plt.savefig(os.path.join(images_folder, 'FFNN_graph.png'))
+    plt.savefig(os.path.join(images_folder, 'FFNN_graph.pdf'), format='pdf')
 except:
     print("Could not save the FFNN graph.")
 else:
@@ -91,17 +102,17 @@ y_pred = np.argmax(y_pred, axis=1)
 # compute the confusion matrix
 cm = confusion_matrix(y_test, y_pred)
 # plot the confusion matrix
-plt.figure(figsize=(10, 7))
-sns.heatmap(cm, annot=True, fmt='d', cmap='Purples', cbar=False)
+plt.figure(figsize=(10, 9))
+sns.heatmap(cm, annot=True, fmt='d', cmap='Purples', cbar=True)
 plt.xticks(np.arange(len(cm))+0.5, np.arange(1, len(cm)+1))
 plt.yticks(np.arange(len(cm))+0.5, np.arange(1, len(cm)+1))
 plt.title('FFNN validation confusion matrix')
-plt.xlabel('Predicted')
+plt.xlabel(f'Predicted\n\n Test Accuracy: {test_accuracy*100:.5f}%\nTrain Accuracy: {train_accuracy*100:.5f}%')
 plt.ylabel('Actual')
 
 # Save the plot to the images folder
 try:
-    plt.savefig(os.path.join(images_folder, 'FFNN_confusion_matrix.png'))
+    plt.savefig(os.path.join(images_folder, 'FFNN_confusion_matrix.pdf'), format='pdf')
 except:
     print("Could not save the FFNN confusion matrix plot.")
 else:
