@@ -109,7 +109,7 @@ def process_data(path: str, plot: bool = False) -> tuple[list[dict], list[dict],
 						entry['month'],
 						entry['day'],
 						entry['hours'],
-						entry['minutes'],
+						# entry['minutes'], # ignored minutes, as it is not relevant without hours
 						*entry['weather'].values()
 				] for entry in balanced_data
 		]

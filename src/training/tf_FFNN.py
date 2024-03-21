@@ -4,6 +4,10 @@ from keras import Sequential
 from keras.layers import Dense, Dropout
 from matplotlib import pyplot as plt
 from keras.callbacks import EarlyStopping
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
+import numpy as np
+import os
 
 # load data
 x_train, x_test, y_train, y_test = process_data('data.json')
@@ -46,12 +50,11 @@ history = model.fit(
 
 # Plot training & validation loss values
 plt.figure(figsize=(12, 6))
-
 # Plot loss
 plt.subplot(1, 2, 1)
 plt.plot(history.history['loss'], label='Train')
 plt.plot(history.history['val_loss'], label='Test')
-plt.title('Model Loss')
+plt.title('FFNN Loss')
 plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.legend()
@@ -60,10 +63,46 @@ plt.legend()
 plt.subplot(1, 2, 2)
 plt.plot(history.history['accuracy'], label='Train')
 plt.plot(history.history['val_accuracy'], label='Test')
-plt.title('Model Accuracy')
+plt.title('FFNN Accuracy')
 plt.xlabel('Epoch')
 plt.ylabel('Accuracy')
 plt.legend()
 
 plt.tight_layout()
-plt.show()
+# Create the 'images' folder if it doesn't exist
+images_folder = 'images'
+if not os.path.exists(images_folder):
+    os.makedirs(images_folder)
+    print("Created 'images' folder...")
+
+# Save the plot to the images folder
+try:
+    plt.savefig(os.path.join(images_folder, 'FFNN_graph.png'))
+except:
+    print("Could not save the FFNN graph.")
+else:
+    print("FFNN graph plot saved.")
+
+# Plot Confusion matrix
+# Predict the values from the validation dataset
+y_pred = model.predict(x_test_scaled)
+# Convert predictions classes to one hot vectors
+y_pred = np.argmax(y_pred, axis=1)
+# compute the confusion matrix
+cm = confusion_matrix(y_test, y_pred)
+# plot the confusion matrix
+plt.figure(figsize=(10, 7))
+sns.heatmap(cm, annot=True, fmt='d', cmap='Purples', cbar=False)
+plt.xticks(np.arange(len(cm))+0.5, np.arange(1, len(cm)+1))
+plt.yticks(np.arange(len(cm))+0.5, np.arange(1, len(cm)+1))
+plt.title('FFNN validation confusion matrix')
+plt.xlabel('Predicted')
+plt.ylabel('Actual')
+
+# Save the plot to the images folder
+try:
+    plt.savefig(os.path.join(images_folder, 'FFNN_confusion_matrix.png'))
+except:
+    print("Could not save the FFNN confusion matrix plot.")
+else:
+    print("FFNN confusion matrix plot saved.")
