@@ -24,14 +24,20 @@ x_test_scaled = scaler.transform(x_test)
 # subsample: Fraction of samples used for training
 # reg_lambda: L2 regularization term on weights
 # reg_alpha: L1 regularization term on weights
-xgb = XGBClassifier(n_estimators=2000, learning_rate=0.3, subsample=0.2, req_lambda=1, req_alpha=1)
+xgb = XGBClassifier(n_estimators=2000, learning_rate=0.3, subsample=0.2)
 
 print("Training XGBoost model...")
 # early_stopping_rounds: Stop training if no improvement in n rounds
 # eval_set: Validation set to evaluate the model
-xgb_model = xgb.fit(x_train_scaled, y_train, early_stopping_rounds=50, eval_set=[(x_test_scaled, y_test)])
+xgb_model = xgb.fit(x_train_scaled, y_train, early_stopping_rounds=50, eval_set=[
+                    (x_test_scaled, y_test)])
 print("XGBoost model trained.")
 
+# Save the trained model
+model_path = 'src/saved_models/xgb_model.json'
+xgb_model.save_model(model_path)
+
+# Predictions
 xgb_train_pred = xgb_model.predict(x_train_scaled)
 xgb_test_pred = xgb_model.predict(x_test_scaled)
 
@@ -49,7 +55,8 @@ sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', cbar=True)
 plt.xticks(np.arange(len(cm))+0.5, np.arange(1, len(cm)+1))
 plt.yticks(np.arange(len(cm))+0.5, np.arange(1, len(cm)+1))
 plt.title('XGB validation confusion matrix')
-plt.xlabel(f'Predicted \n\nTest Accuracy: {test_accuracy*100:.5f}%\nTraining Accuracy: {train_accuracy*100:.5f}%\n')
+plt.xlabel(
+    f'Predicted \n\nTest Accuracy: {test_accuracy*100:.5f}%\nTraining Accuracy: {train_accuracy*100:.5f}%\n')
 plt.ylabel('Actual')
 
 # Create the 'images' folder if it doesn't exist
@@ -60,8 +67,21 @@ if not os.path.exists(images_folder):
 
 # Save the plot to the images folder
 try:
-    plt.savefig(os.path.join(images_folder, 'XGB_confusion_matrix.pdf'), format='pdf')
+    plt.savefig(os.path.join(images_folder,
+                'XGB_confusion_matrix.pdf'), format='pdf')
 except:
     print("Could not save the XGB confusion matrix.")
 else:
     print("XGB confusion matrix plot saved.")
+
+
+feature_importances = xgb_model.feature_importances_
+features = ['year', 'month', 'day', 'hours', 'temp', 'wcode',
+            'wspeed', 'wdirection', 'snowfall', 'snowdepth', 'downpour', 'visibility']
+
+plt.figure(figsize=(10, 6))
+plt.barh(features, feature_importances)
+plt.xlabel('Feature Importance Score')
+plt.ylabel('Features')
+plt.title('XGBoost Feature Importance')
+plt.savefig(os.path.join(images_folder, 'XGB_feature_importance.pdf'), format='pdf')
