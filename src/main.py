@@ -1,5 +1,7 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from get_predicted_ratings import get_predicted_ratings
+from formatters.input_formatter import input_formatter
+from formatters.output_formatter import output_formatter
 
 app = Flask(__name__)
 
@@ -10,9 +12,10 @@ def hello_world():
 @app.route("/ratings/predict", methods=["POST"])
 def predict_ratings():
     if request.method == "POST":
-        request_data = request.get_json().get('data', "No data found")
-        # use the output of the trained AI model to predict the ratings
-        return get_predicted_ratings(request_data)
+        #request_data = request.get_json().get('data', "No data found")
+        data = input_formatter(request.data)
+        data = get_predicted_ratings(data)
+        return output_formatter(data)
 
 
 if __name__ == "__main__":
