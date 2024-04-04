@@ -28,8 +28,19 @@ def input_formatter(data):
     formatted_data = []
     for piste_id in piste_ids:
         formatted_data.append({
-            'piste_id': piste_id,
-            'weather': weather
+            #'piste': piste_id.get('pisteId'),
+            'temperature': weather.get('temperature'),
+            'weatherCode': weather.get('weatherCode'),
+            'windSpeed': weather.get('windSpeed'),
+            'windDirection': weather.get('windDirection'),
+            'snowfall': weather.get('snowfall'),
+            'snowDepth': weather.get('snowDepth'),
+            'downpour': weather.get('downpour'),
+            'visibility': weather.get('visibility'),
+            'year': year,
+            'month': month,
+            'day': day,
+            'hour': hour
         })
 
-    return
+    return formatted_data
