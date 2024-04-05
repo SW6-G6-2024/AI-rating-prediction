@@ -1,6 +1,15 @@
 import json
 
-def input_formatter(data):
+def input_formatter(data: json):
+    """
+    Creates a list of dictionaries from the input data, in order to match the expected input format for the model.
+
+    Args:
+        data (json): The input data in json format.
+
+    Returns:
+        list: A list of dictionaries, each containing the input data for a single piste.
+    """
     load = json.loads(data)
     # get list of piste ids or throw error if not found
     piste_ids = load.get('pisteList', None)
