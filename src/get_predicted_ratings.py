@@ -2,7 +2,7 @@ import pandas as pd
 from xgboost import XGBClassifier
 
 
-def get_predicted_ratings(data: dict):
+def get_predicted_ratings(data: dict, model: XGBClassifier):
     """
     Get the predicted ratings for the input data, using XGBoost Classifier.
 
@@ -23,13 +23,11 @@ def get_predicted_ratings(data: dict):
             'downpour': 0,
             'visibility': 0
         }
+        model (XGBClassifier): The saved XGBoost Classifier model to use for prediction.
 
     Returns:
         int: The predicted rating for the input data.
     """
-    # load the model
-    xgb_model = XGBClassifier()
-    xgb_model.load_model('src/saved_models/xgb_model.json')
 
     # Convert input data to DataFrame
     df = pd.DataFrame([data])
@@ -42,7 +40,7 @@ def get_predicted_ratings(data: dict):
     # Display the DataFrame
     # print(df)
 
-    prediction = xgb_model.predict(df)
+    prediction = model.predict(df)
 
     # make predictions
     return prediction.item()
