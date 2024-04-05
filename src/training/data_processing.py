@@ -4,8 +4,16 @@ from sys import argv
 import seaborn as sb
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 
-from .data_splitter import split_data, separate_labels
+from src.training.data_splitter import split_data, separate_labels
+
+import os
+
+# Get the directory of the current script file
+current_dir = os.path.dirname(os.path.abspath(__file__))
+# Construct the path to data.json relative to the current script file
+data_path = os.path.join(current_dir, '..', '..', 'data.json')
 
 
 def load_data(path: str) -> list[dict]:
@@ -13,7 +21,7 @@ def load_data(path: str) -> list[dict]:
 		Args:
 			path (str): path to the file
 		Returns:
-			list[dict]: training data from 'data.json' file
+			list[dict]: data from loaded file
 		"""
 		with open(path, 'r') as f:
 				data = json.load(f)
@@ -87,18 +95,54 @@ def make_plot(data: list[list[dict]]) -> tuple[plt.Figure, list[plt.Axes]]: # pr
 		plt.show()
 		return fig, axes
 
+def process_data(path: str, plot: bool = False) -> tuple[list[dict], list[dict], list[dict], list[dict]]:
+		"""Processes the data from the file at the given path.
+		Args:
+			path (str): path to the file
+		Returns:
+			tuple[list[dict], list[dict], list[dict], list[dict]]: training data, labels, training data, labels
+		"""
+		data = load_data(path)
+		balanced_data = balance_data(data)
+		data, labels = separate_labels(balanced_data)
+
+		if plot:
+				make_plot([data, balanced_data])
+		
+		# Make data into a feature vector
+		balanced_data = [
+  			[
+						entry['year'],
+						entry['month'],
+						entry['day'],
+						entry['hours'],
+						# entry['minutes'], # ignored minutes, as it is not relevant without hours
+						*entry['weather'].values()
+				] for entry in balanced_data
+		]
+	
+		x_train, x_test, y_train, y_test = split_data(balanced_data, labels)
+		return np.array(x_train), np.array(x_test), np.array(y_train), np.array(y_test)
+
 # non-balanced data
-data = load_data('data.json')
+data = load_data(data_path)
 # balanced data
 balanced_data = balance_data(data)
-
-print(argv)
 
 if(len(argv) >= 2 and argv[1] == "plot"):
 	make_plot([data, balanced_data])
 
 data, labels = separate_labels(balanced_data)
-x_train, x_test, y_train, y_test = split_data(data, labels)
 
-print(f"Training data: {len(x_train)}")
-print(f"Test data: {len(x_test)}")
+data = [
+  [
+				entry['year'],
+				entry['month'],
+				entry['day'],
+				entry['hours'],
+				entry['minutes'],
+				*entry['weather'].values()
+		] for entry in balanced_data
+]
+
+x_train, x_test, y_train, y_test = split_data(data, labels)

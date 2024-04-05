@@ -1,18 +1,35 @@
 from flask import Flask, request
 from get_predicted_ratings import get_predicted_ratings
+from formatters.input_formatter import input_formatter
+from formatters.output_formatter import output_formatter
+from xgboost import XGBClassifier
 
 app = Flask(__name__)
+
+# load the model
+xgb_model = XGBClassifier()
+xgb_model.load_model('src/saved_models/xgb_model.json')
+
 
 @app.route("/")
 def hello_world():
     return "<p>Hello, World!</p>"
 
+
 @app.route("/ratings/predict", methods=["POST"])
 def predict_ratings():
     if request.method == "POST":
-        request_data = request.get_json().get('data', "No data found")
-        # use the output of the trained AI model to predict the ratings
-        return get_predicted_ratings(request_data)
+        # get the data from the request
+        data = input_formatter(request.data)
+        rating_list = []
+        # loop through the data, get the predicted ratings and append to the list
+        for i in data:
+            rating_list.append({
+                #'piste': i['piste'],
+                'piste': 'test',
+                'rating': get_predicted_ratings(i, xgb_model)
+            })
+        return output_formatter(rating_list)
 
 
 if __name__ == "__main__":

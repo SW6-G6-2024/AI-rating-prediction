@@ -1,9 +1,11 @@
 import pytest
-import numpy as np
+
+data_path = '../tests/fixtures/test_data.json'
+fake_path = '../tests/fixtures/test_data2.json'
 
 def test_load_data():
 		from src.training.data_processing import load_data
-		data = load_data('tests/fixtures/test_data.json')
+		data = load_data(data_path)
 		assert len(data) == 1000 # Check that data is loaded
 		assert isinstance(data, list) # Check that data is a list
 		assert isinstance(data[0], dict) # Check that data contains dictionaries
@@ -11,8 +13,9 @@ def test_load_data():
 def test_load_data_no_file():
 		from src.training.data_processing import load_data
 		with pytest.raises(FileNotFoundError) as err:
-				data = load_data('tests/fixtures/test_data2.json')
-				assert str(err.value) == 'File not found' # Check that the file is not found
+				load_data(fake_path)
+		# Check that the file is not found
+		assert str(err.value) == "[Errno 2] No such file or directory: " + "'" + fake_path + "'"
     
 
 def test_flatten():
