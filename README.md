@@ -1,6 +1,61 @@
 # AI-rating-prediction
 This microservice predicts the ratings of pistes based on the current weather/environmental conditions, using AI models
 
+## How to use
+
+To get a rating, you can use postman 
+
+<b>POST TO</b> 
+```html
+http://localhost:1337/ratings/predict
+```
+
+<b>WITH THIS FORMAT</b>
+```json
+{
+    "pisteList": [
+        {"pisteId": 1},
+        {"pisteId": 3},
+        {"pisteId": 5},
+    ],
+    "weather": {
+        "temperature": 7.8,
+        "weatherCode": 2,
+        "windSpeed": 9.407048617566698,
+        "windDirection": 158,
+        "snowfall": 0,
+        "snowDepth": 68.12066453421069,
+        "downpour": 0,
+        "visibility": 1859.8565326225944
+    },
+    "year": 2023,
+    "month": 2,
+    "day": 3,
+    "hour": 7
+}
+```
+
+# Return format
+
+<i>Once pisteId are implemented to training data, "test" will be replaced with actual piste id</i> 😎
+
+```json
+[
+  {
+    "piste": "test",
+    "rating": 1
+  },
+  {
+    "piste": "test",
+    "rating": 1
+  },
+  {
+    "piste": "test",
+    "rating": 1
+  },
+]
+```
+
 ## How to run
 
 It is recommended that unless you run in Docker, you should run this in a virtual environment.
