@@ -21,7 +21,7 @@ def load_data(path: str) -> list[dict]:
 		Args:
 			path (str): path to the file
 		Returns:
-			list[dict]: training data from 'data.json' file
+			list[dict]: data from loaded file
 		"""
 		with open(path, 'r') as f:
 				data = json.load(f)
