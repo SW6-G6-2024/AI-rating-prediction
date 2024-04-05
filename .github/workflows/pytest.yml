@@ -18,7 +18,7 @@ jobs:
           python-version: 3.11.9
 
       - name: Install dependencies
-        run: pip install -r workflow.txt
+        run: pip install -r wf.txt
 
       - name: Run Pytest tests
         run: pytest
