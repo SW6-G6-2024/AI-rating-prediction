@@ -8,13 +8,6 @@ import numpy as np
 
 from src.training.data_splitter import split_data, separate_labels
 
-import os
-
-# Get the directory of the current script file
-current_dir = os.path.dirname(os.path.abspath(__file__))
-# Construct the path to data.json relative to the current script file
-data_path = os.path.join(current_dir, '..', '..', 'data.json')
-
 
 def load_data(path: str) -> list[dict]:
 		"""Reads data from file at a given path.
@@ -125,7 +118,7 @@ def process_data(path: str, plot: bool = False) -> tuple[list[dict], list[dict],
 		return np.array(x_train), np.array(x_test), np.array(y_train), np.array(y_test)
 
 # non-balanced data
-data = load_data(data_path)
+data = load_data('data.json')
 # balanced data
 balanced_data = balance_data(data)
 

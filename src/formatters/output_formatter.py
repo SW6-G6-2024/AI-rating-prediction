@@ -1,6 +1,6 @@
 from flask import jsonify
 
-def output_formatter(data: dict):
+def output_formatter(data: list[dict]):
     """
     Formats the output data to be returned as a json response.
     

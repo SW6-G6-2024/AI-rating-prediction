@@ -1,7 +1,7 @@
 import pytest
 
-data_path = '../tests/fixtures/test_data.json'
-fake_path = '../tests/fixtures/test_data2.json'
+fake_path = 'tests/fixtures/test_data2.json'
+data_path = 'tests/fixtures/test_data.json'
 
 def test_load_data():
 		from src.training.data_processing import load_data
