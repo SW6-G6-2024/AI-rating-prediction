@@ -1,7 +1,6 @@
 import pytest
 from json.decoder import JSONDecodeError
-from tests.fixtures.input.input_succ import succ
-from tests.fixtures.input.input_fail import fail, fail1
+from tests.fixtures.input.input_formatter import fail, fail1, succ
 
 succ_path = '../tests/fixtures/input/input_succ.json'
 

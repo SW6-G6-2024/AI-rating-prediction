@@ -1,5 +1,5 @@
 import json
-from src.validators.validate_input import validate_input_data
+from validators.validate_input import validate_input_data
 
 def input_formatter(data: str) -> list[dict]:
     """
