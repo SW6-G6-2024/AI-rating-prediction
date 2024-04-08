@@ -57,7 +57,7 @@ def balance_data(data: list[dict]) -> list[dict]:
 				lists[i-1] += lists[i - 1] * (factors[i - 1] - 1) 
 		
 		# Cut the lists to the same length
-		lists = [i[:max_length+30] for i in lists]
+		lists = [i[:max_length] for i in lists]
 
 		# Flatten the lists
 		data = flatten(lists)
