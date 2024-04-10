@@ -27,7 +27,7 @@ def input_formatter(data: str) -> list[dict]:
         'windDirection': int, 
         'snowfall': int, 
         'snowDepth': float, 
-        'downpour': int, 
+        'rain': int, 
         'visibility': float
     }
 
@@ -50,7 +50,7 @@ def input_formatter(data: str) -> list[dict]:
     windDirection = weather.get('windDirection')
     snowfall = weather.get('snowfall')
     snowDepth = weather.get('snowDepth')
-    downpour = weather.get('downpour')
+    rain = weather.get('rain')
     visibility = weather.get('visibility')
 
     # validate weather data
@@ -67,7 +67,7 @@ def input_formatter(data: str) -> list[dict]:
             'windDirection': windDirection,
             'snowfall': snowfall,
             'snowDepth': snowDepth,
-            'downpour': downpour,
+            'rain': rain,
             'visibility': visibility,
             'year': year,
             'month': month,

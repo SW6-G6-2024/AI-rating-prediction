@@ -77,7 +77,7 @@ else:
 
 feature_importances = xgb_model.feature_importances_
 features = ['year', 'month', 'day', 'hours', 'temp', 'wcode',
-            'wspeed', 'wdirection', 'snowfall', 'snowdepth', 'downpour', 'visibility']
+            'wspeed', 'wdirection', 'snowfall', 'snowdepth', 'rain', 'visibility']
 
 plt.figure(figsize=(10, 6))
 plt.barh(features, feature_importances)

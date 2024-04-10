@@ -25,7 +25,7 @@ http://localhost:1337/ratings/predict
         "windDirection": 158,
         "snowfall": 0,
         "snowDepth": 68.12066453421069,
-        "downpour": 0,
+        "rain": 0,
         "visibility": 1859.8565326225944
     },
     "year": 2023,

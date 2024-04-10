@@ -20,7 +20,7 @@ def get_predicted_ratings(data: dict, model: XGBClassifier):
             'windDirection': 0,
             'snowfall': 0,
             'snowDepth': 0,
-            'downpour': 0,
+            'rain': 0,
             'visibility': 0
         }
         model (XGBClassifier): The saved XGBoost Classifier model to use for prediction.
@@ -35,7 +35,7 @@ def get_predicted_ratings(data: dict, model: XGBClassifier):
     # Reorder the columns
     # ADD PISTE AS A COLUMN BETWEEN HOUR AND TEMPERATURE WHEN IMPLEMENTED
     df = df[['year', 'month', 'day', 'hour', 'temperature', 'weatherCode',
-             'windSpeed', 'windDirection', 'snowfall', 'snowDepth', 'downpour', 'visibility']]
+             'windSpeed', 'windDirection', 'snowfall', 'snowDepth', 'rain', 'visibility']]
 
     # Display the DataFrame
     # print(df)

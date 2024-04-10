@@ -12,7 +12,7 @@ def fail():
         "windDirection": 158,
         "snowfall": 0,
         "snowDepth": 68.12066453421069,
-        "downpour": 0,
+        "rain": 0,
         "visibility": 1859.8565326225944
     },
     "year": 2023,
@@ -36,7 +36,7 @@ def fail1():
         "windDirection": 158,
         "snowfall": 0,
         "snowDepth": 68.12066453421069,
-        "downpour": 0,
+        "rain": 0,
         "visibility": 1859.8565326225944
     },
     "month": 2,
@@ -59,7 +59,7 @@ def succ():
         "windDirection": 158,
         "snowfall": 0,
         "snowDepth": 68.12066453421069,
-        "downpour": 0,
+        "rain": 0,
         "visibility": 1859.8565326225944
     },
     "year": 2023,
