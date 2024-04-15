@@ -13,7 +13,7 @@ def input_formatter(data: str) -> list[dict]:
     """
     # Required fields
     required_fields = {
-        'pisteList': list, 
+        'pisteList': list,
         'weather': dict, 
         'year': int, 
         'month': int, 
@@ -60,7 +60,8 @@ def input_formatter(data: str) -> list[dict]:
     formatted_data = []
     for piste_id in piste_ids:
         formatted_data.append({
-            #'piste': piste_id.get('pisteId'),
+            'piste': piste_id.get('id'),
+            'direction': piste_id.get('direction'),
             'temperature': temperature,
             'weatherCode': weatherCode,
             'windSpeed': windSpeed,

@@ -34,7 +34,7 @@ def get_predicted_ratings(data: dict, model: XGBClassifier):
 
     # Reorder the columns
     # ADD PISTE AS A COLUMN BETWEEN HOUR AND TEMPERATURE WHEN IMPLEMENTED
-    df = df[['year', 'month', 'day', 'hour', 'temperature', 'weatherCode',
+    df = df[['direction', 'year', 'month', 'day', 'hour', 'temperature', 'weatherCode',
              'windSpeed', 'windDirection', 'snowfall', 'snowDepth', 'rain', 'visibility']]
 
     # Display the DataFrame

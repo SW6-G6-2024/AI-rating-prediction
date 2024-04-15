@@ -25,8 +25,7 @@ def predict_ratings():
         # loop through the data, get the predicted ratings and append to the list
         for i in data:
             rating_list.append({
-                #'piste': i['piste'],
-                'piste': 'test',
+                'piste': i['piste'],
                 'rating': get_predicted_ratings(i, xgb_model)
             })
         return output_formatter(rating_list)

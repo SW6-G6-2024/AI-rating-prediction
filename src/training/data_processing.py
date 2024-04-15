@@ -6,7 +6,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-from src.training.data_splitter import split_data, separate_labels
+from src.training.data_splitter import separate_labels, split_data
+
+
 
 
 def load_data(path: str) -> list[dict]:
@@ -105,6 +107,7 @@ def process_data(path: str, plot: bool = False) -> tuple[list[dict], list[dict],
 		# Make data into a feature vector
 		balanced_data = [
   			[
+				  		entry['piste']['direction'],
 						entry['year'],
 						entry['month'],
 						entry['day'],
@@ -129,11 +132,12 @@ data, labels = separate_labels(balanced_data)
 
 data = [
   [
+	  			entry['piste']['direction'],
 				entry['year'],
 				entry['month'],
 				entry['day'],
 				entry['hours'],
-				entry['minutes'],
+				#entry['minutes'],
 				*entry['weather'].values()
 		] for entry in balanced_data
 ]
