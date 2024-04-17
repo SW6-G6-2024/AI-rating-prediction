@@ -3,15 +3,15 @@ from json.decoder import JSONDecodeError
 from tests.fixtures.input.input_formatter import fail, fail1, succ
 
 succ_path = '../tests/fixtures/input/input_succ.json'
+required_fields = {
+    'year': int,
+    'month': int,
+    'day': int,
+    'hour': int,
+}
 
 def test_validate_input_data_does_not_throw():
     from src.formatters.input_formatter import validate_input_data
-    required_fields = {
-        'year': int, 
-        'month': int, 
-        'day': int, 
-        'hour': int
-    }
     data = {
         'year': 2021,
         'month': 5,
@@ -24,12 +24,6 @@ def test_validate_input_data_does_not_throw():
 
 def test_validate_input_data_throws_missing_field():
     from src.formatters.input_formatter import validate_input_data
-    required_fields = {
-        'year': int, 
-        'month': int, 
-        'day': int, 
-        'hour': int
-    }
     data = {
         'year': 2021,
         'month': 5,
@@ -41,12 +35,6 @@ def test_validate_input_data_throws_missing_field():
 
 def test_validate_input_data_throws_wrong_type():
     from src.formatters.input_formatter import validate_input_data
-    required_fields = {
-        'year': int, 
-        'month': int, 
-        'day': int, 
-        'hour': int
-    }
     data = {
         'year': 2021,
         'month': 5,
