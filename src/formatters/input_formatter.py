@@ -1,30 +1,30 @@
 import json
 from validators.validate_input import validate_input_data
 
-required_fields = {
-    'pisteList': list,
-    'weather': dict,
-    'date': dict
-}
-required_piste_info = {
-    'id': int,
-    'direction': float
-}
-weather_fields = {
-    'temperature': float,
-    'weatherCode': int,
-    'windSpeed': float,
-    'windDirection': int,
-    'snowfall': int,
-    'snowDepth': float,
-    'rain': int,
-    'visibility': float
-}
+required_fields = [
+    'pisteList',
+    'weather',
+    'date'
+]
+required_piste_info = [
+    'id',
+    'direction'
+]
+weather_fields = [
+    'temperature',
+    'weatherCode',
+    'windSpeed',
+    'windDirection',
+    'snowfall',
+    'snowDepth',
+    'rain',
+    'visibility'
+]
 date_fields = {
-    'year': int,
-    'month': int,
-    'day': int,
-    'hour': int
+    'year',
+    'month',
+    'day',
+    'hour'
 }
 
 
@@ -46,16 +46,6 @@ def input_formatter(data: str) -> list[dict]:
     piste_ids = load.get('pisteList')
     weather = load.get('weather')
     date = load.get('date')
-
-    # validate piste data
-    validate_input_data(load, required_fields)
-    # validate piste id data
-    for piste_id in piste_ids:
-        validate_input_data(piste_id, required_piste_info)
-    # validate weather data
-    validate_input_data(weather, weather_fields)
-    # validate date data
-    validate_input_data(date, date_fields)
 
     # get weather fields
     temperature = weather.get('temperature')
@@ -92,5 +82,15 @@ def input_formatter(data: str) -> list[dict]:
             'day': int(day),
             'hour': int(hour)
         })
+
+    # validate piste data
+    validate_input_data(load, required_fields)
+    # validate piste id data
+    for piste_id in piste_ids:
+        validate_input_data(piste_id, required_piste_info)
+    # validate weather data
+    validate_input_data(weather, weather_fields)
+    # validate date data
+    validate_input_data(date, date_fields)
 
     return formatted_data

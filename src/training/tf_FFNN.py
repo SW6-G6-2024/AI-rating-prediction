@@ -59,7 +59,7 @@ print("Test Accuracy:", test_accuracy)
 print("Test Loss:", test_loss)
 
 
-# Plot training & validation loss values
+# Plot training and validation loss values
 plt.figure(figsize=(12, 7))
 # Plot loss
 plt.subplot(1, 2, 1)
