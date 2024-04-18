@@ -98,4 +98,4 @@ def test_input_formatter_missing_field():
     with pytest.raises(ValueError) as err:
         from src.formatters.input_formatter import input_formatter
         input_formatter(fail1())
-        assert str(err.value) == "ValueError: Missing required field: year"
+        assert str(err.value) == "ValueError: Missing required field: hour"

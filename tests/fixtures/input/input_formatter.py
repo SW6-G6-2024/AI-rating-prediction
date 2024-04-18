@@ -1,9 +1,18 @@
 def fail():
     return """{
     "pisteList": [
-        {"pisteId": 1},
-        {"pisteId": 3},
-        {"pisteId": 5}
+        {
+          "id": 1,
+          "direction": 9.34534636
+        },
+        {
+          "id": 3,
+          "direction": 2.34534636
+        },
+        {
+          "id": 5,
+          "direction": 180.34534636
+        }
     ],
     "weather": {
         "temperature": 1,
@@ -15,22 +24,33 @@ def fail():
         "rain": 0,
         "visibility": 1859.8565326225944
     },
-    "year": 2023,
-    "month": 2,
-    "day": 3,
-    "hour": 7
+    "date": {
+        "year": 2023,
+        "month": 2,
+        "day": 3,
+        "hour": 7
+    }
     }"""
 
 
 def fail1():
     return """{
     "pisteList": [
-        {"pisteId": 1},
-        {"pisteId": 3},
-        {"pisteId": 5}
+        {
+          "id": 1,
+          "direction": 9.34534636
+          },
+        {
+          "id": 3,
+          "direction": 2.34534636
+          },
+        {
+          "id": 5,
+          "direction": 180.34534636
+          }
     ],
     "weather": {
-        "temperature": 1,
+        "temperature": 1.2,
         "weatherCode": 2,
         "windSpeed": 9.407048617566698,
         "windDirection": 158,
@@ -39,18 +59,29 @@ def fail1():
         "rain": 0,
         "visibility": 1859.8565326225944
     },
-    "month": 2,
-    "day": 3,
-    "hour": 7
+    "date": {
+        "year": 2023,
+        "month": 2,
+        "day": 3,
+    }
     }"""
 
 
 def succ():
     return """{
     "pisteList": [
-        {"pisteId": 1},
-        {"pisteId": 3},
-        {"pisteId": 5}
+        {
+          "id": 1,
+          "direction": 9.34534636
+          },
+        {
+          "id": 3,
+          "direction": 2.34534636
+          },
+        {
+          "id": 5,
+          "direction": 180.34534636
+          }
     ],
     "weather": {
         "temperature": 7.8,
@@ -62,8 +93,10 @@ def succ():
         "rain": 0,
         "visibility": 1859.8565326225944
     },
-    "year": 2023,
-    "month": 2,
-    "day": 3,
-    "hour": 7
+    "date": {
+        "year": 2023,
+        "month": 2,
+        "day": 3,
+        "hour": 7
+    }
     }"""
