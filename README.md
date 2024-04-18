@@ -36,10 +36,12 @@ http://localhost:1337/ratings/predict
     "rain": 0,
     "visibility": 1859.8565326225944
   },
-  "year": 2023,
-  "month": 2,
-  "day": 3,
-  "hour": 7
+  "date": {
+    "year": 2023,
+    "month": 2,
+    "day": 3,
+    "hour": 7
+  }
 }
 ```
 
