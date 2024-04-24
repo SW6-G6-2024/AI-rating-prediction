@@ -76,7 +76,7 @@ else:
 
 
 feature_importances = xgb_model.feature_importances_
-features = ['direction','year', 'month', 'day', 'hours', 'temp', 'wcode',
+features = ['id', 'direction','year', 'month', 'day', 'hours', 'temp', 'wcode',
             'wspeed', 'wdirection', 'snowfall', 'snowdepth', 'rain', 'visibility']
 
 plt.figure(figsize=(10, 6))

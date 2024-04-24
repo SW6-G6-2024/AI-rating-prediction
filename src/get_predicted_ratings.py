@@ -9,6 +9,8 @@ def get_predicted_ratings(data: dict, model: XGBClassifier):
     Args:
         data (dict): An instance of the input data, as a dictionary.
         e.g. {
+            'id': 1,
+            'direction': 1,
             'year': 2020,
             'month': 1,
             'day': 1,
@@ -33,8 +35,7 @@ def get_predicted_ratings(data: dict, model: XGBClassifier):
     df = pd.DataFrame([data])
 
     # Reorder the columns
-    # ADD PISTE AS A COLUMN BETWEEN HOUR AND TEMPERATURE WHEN IMPLEMENTED
-    df = df[['direction', 'year', 'month', 'day', 'hour', 'temperature', 'weatherCode',
+    df = df[['piste', 'direction', 'year', 'month', 'day', 'hour', 'temperature', 'weatherCode',
              'windSpeed', 'windDirection', 'snowfall', 'snowDepth', 'rain', 'visibility']]
 
     # Display the DataFrame

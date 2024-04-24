@@ -9,8 +9,6 @@ import numpy as np
 from src.training.data_splitter import separate_labels, split_data
 
 
-
-
 def load_data(path: str) -> list[dict]:
 		"""Reads data from file at a given path.
 		Args:
@@ -107,7 +105,8 @@ def process_data(path: str, plot: bool = False) -> tuple[list[dict], list[dict],
 		# Make data into a feature vector
 		balanced_data = [
   			[
-				  		entry['piste']['direction'],
+            entry['piste']['id'],
+				  	entry['piste']['direction'],
 						entry['year'],
 						entry['month'],
 						entry['day'],
@@ -132,7 +131,8 @@ data, labels = separate_labels(balanced_data)
 
 data = [
   [
-	  			entry['piste']['direction'],
+        entry['piste']['id'],
+	  		entry['piste']['direction'],
 				entry['year'],
 				entry['month'],
 				entry['day'],

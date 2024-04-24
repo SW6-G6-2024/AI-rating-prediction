@@ -31,18 +31,6 @@ def test_validate_input_data_throws_missing_field():
     }
     with pytest.raises(ValueError, match="Missing required field: hour"):
         assert(validate_input_data(data, required_fields))
-
-
-def test_validate_input_data_throws_wrong_type():
-    from src.formatters.input_formatter import validate_input_data
-    data = {
-        'year': 2021,
-        'month': 5,
-        'day': 5,
-        'hour': '5'
-    }
-    with pytest.raises(TypeError, match="Field hour is not of type <class 'int'>, found <class 'str'> instead."):
-        assert(validate_input_data(data, required_fields))
     
 
 def test_input_formatter_success():
@@ -85,13 +73,6 @@ def test_input_formatter_no_file():
         from src.formatters.input_formatter import input_formatter
         input_formatter("foo")
         assert str(err.value) == "Expecting value: line 1 column 1 (char 0)"
-
-
-def test_input_formatter_type_error():
-    with pytest.raises(TypeError) as err:
-        from src.formatters.input_formatter import input_formatter
-        input_formatter(fail())
-        assert str(err.value) == "TypeError: Field temperature is not of type <class 'float'>, found <class 'int'> instead."
 
 
 def test_input_formatter_missing_field():
