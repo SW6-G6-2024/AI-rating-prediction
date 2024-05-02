@@ -2,13 +2,13 @@ from flask import Flask, request
 from get_predicted_ratings import get_predicted_ratings
 from formatters.input_formatter import input_formatter
 from formatters.output_formatter import output_formatter
-from xgboost import XGBClassifier
+from xgboost import XGBRegressor
 
 app = Flask(__name__)
 
 # load the model
-xgb_model = XGBClassifier()
-xgb_model.load_model('src/saved_models/xgb_model.json')
+xgb_model = XGBRegressor()
+xgb_model.load_model('src/saved_models/xgb_model_reg.json')
 
 
 @app.route("/")

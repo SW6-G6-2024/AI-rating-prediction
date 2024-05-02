@@ -1,8 +1,8 @@
 import pandas as pd
-from xgboost import XGBClassifier
+from xgboost import XGBRegressor
 
 
-def get_predicted_ratings(data: dict, model: XGBClassifier):
+def get_predicted_ratings(data: dict, model: XGBRegressor):
     """
     Get the predicted ratings for the input data, using XGBoost Classifier.
 
@@ -38,10 +38,7 @@ def get_predicted_ratings(data: dict, model: XGBClassifier):
     df = df[['piste', 'direction', 'year', 'month', 'day', 'hour', 'temperature', 'weatherCode',
              'windSpeed', 'windDirection', 'snowfall', 'snowDepth', 'rain', 'visibility']]
 
-    # Display the DataFrame
-    # print(df)
-
     prediction = model.predict(df)
 
     # make predictions
-    return prediction.item()
+    return prediction.item() + 1
