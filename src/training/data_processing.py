@@ -95,9 +95,9 @@ def process_data(path: str, plot: bool = False) -> tuple[list[dict], list[dict],
 		Returns:
 			tuple[list[dict], list[dict], list[dict], list[dict]]: training data, labels, training data, labels
 		"""
-		data_load = load_data(path)
-		# balanced_data = balance_data(data)
-		data, labels = separate_labels(data_load)
+		data = load_data(path)
+		balanced_data = balance_data(data)
+		data, labels = separate_labels(balanced_data)
 
 		if plot:
 				make_plot([data, balanced_data])

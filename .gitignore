@@ -162,3 +162,4 @@ cython_debug/
 # Images
 images/
 catboost_info/
+data.json

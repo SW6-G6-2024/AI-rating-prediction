@@ -1,3 +1,4 @@
+import joblib
 from sklearn.preprocessing import StandardScaler
 from xgboost import XGBRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error
@@ -13,25 +14,28 @@ y_train = y_train - 1  # Adjust target labels to start from 0
 y_test = y_test - 1  # Adjust feature values to start from 0
 
 # Scale features
-scaler = StandardScaler()
-x_train_scaled = scaler.fit_transform(x_train)
-x_test_scaled = scaler.transform(x_test)
+# scaler = StandardScaler()
+# x_train_scaled = scaler.fit_transform(x_train)
+# x_test_scaled = scaler.transform(x_test)
 
 # Train the XGBoost model
 xgb = XGBRegressor(n_estimators=2000, learning_rate=0.3, subsample=0.2)
 
 print("Training XGBoost model...")
-xgb_model = xgb.fit(x_train_scaled, y_train, early_stopping_rounds=50, eval_set=[
-                    (x_test_scaled, y_test)], verbose=False)
+xgb_model = xgb.fit(x_train, y_train, early_stopping_rounds=50, eval_set=[
+                    (x_test, y_test)], verbose=False)
 print("XGBoost model trained.")
 
 # Save the trained model
 model_path = 'src/saved_models/xgb_model_reg.json'
 xgb_model.save_model(model_path)
+# save scaler
+scaler_path = 'src/saved_scaler/scaler.pkl'
+# joblib.dump(scaler, scaler_path)
 
 # Predictions
-xgb_train_pred = xgb_model.predict(x_train_scaled)
-xgb_test_pred = xgb_model.predict(x_test_scaled)
+xgb_train_pred = xgb_model.predict(x_train)
+xgb_test_pred = xgb_model.predict(x_test)
 
 # Calculate Root Mean Squared Error
 rmse = mean_squared_error(y_test, xgb_test_pred)
@@ -48,7 +52,6 @@ features = ['id', 'direction','year', 'month', 'day', 'hours', 'temp', 'wcode',
 plt.figure(figsize=(10, 6))
 plot_importance(xgb_model)
 plt.title('XGBoost Feature Importance')
-plt.show()
 
 images_folder = 'images'
 if not os.path.exists(images_folder):
