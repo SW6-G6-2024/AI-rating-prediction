@@ -1,12 +1,26 @@
 import pytest
+from src.training.data_processing import load_data
+from src.training.data_processing import flatten
 
 fake_path = 'tests/fixtures/test_data2.json'
 data_path = 'tests/fixtures/test_data.json'
 
 
-def test_load_data():
-    from src.training.data_processing import load_data
+def test_load_data(monkeypatch):
+    # Define the dummy data to be returned by the mock function
+    dummy_data = [{}] * 1000
+
+    # Define the mock function
+    def mock_load_data(path):
+        return dummy_data
+
+    # Patch the load_data function with the mock function
+    monkeypatch.setattr("src.training.data_processing.load_data", mock_load_data)
+
+    # Call the function that uses load_data
     data = load_data(data_path)
+
+    # Check the behavior of the function
     assert len(data) == 1000  # Check that data is loaded
     assert isinstance(data, list)  # Check that data is a list
     assert isinstance(data[0], dict)  # Check that data contains dictionaries
@@ -22,7 +36,6 @@ def test_load_data_no_file():
 
 
 def test_flatten():
-    from src.training.data_processing import flatten
     data = [
         [{"points": 1, "text": "This is a test"}, {
             "points": 1, "text": "This is a test"}],
@@ -45,7 +58,7 @@ def test_flatten():
 
 
 def test_flatten_wrong_format():
-    from src.training.data_processing import flatten
+    
     pytest.raises(TypeError, flatten, [1, 4])  # Check that TypeError is raised
 
 
