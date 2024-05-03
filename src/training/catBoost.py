@@ -11,30 +11,26 @@ x_train, x_test, y_train, y_test = process_data('data.json')
 y_train = y_train - 1  # Adjust target labels to start from 0
 y_test = y_test - 1  # Adjust feature values to start from 0
 
-scaler = StandardScaler()
-x_train_scaled = scaler.fit_transform(x_train)
-x_test_scaled = scaler.transform(x_test)
-
-pool = Pool(data=x_train_scaled, label=y_train)
+pool = Pool(data=x_train, label=y_train)
 model = CatBoostClassifier(iterations=8000, learning_rate=0.8, depth=4, loss_function='MultiClass')
 
 print("Training CatBoost model...")
 
-model.fit(pool, eval_set=(x_test_scaled, y_test), early_stopping_rounds=50)
+model.fit(pool, eval_set=(x_test, y_test), early_stopping_rounds=50)
 
 print("CatBoost model trained.")
 # test accuracy
-test_accuracy = model.score(x_test_scaled, y_test)
+test_accuracy = model.score(x_test, y_test)
 print("Test Accuracy:", test_accuracy)
 # training accuracy
-train_accuracy = model.score(x_train_scaled, y_train)
+train_accuracy = model.score(x_train, y_train)
 print("Training Accuracy:", train_accuracy)
 
 
 model.save_model('src/saved_models/catboost.json')
 print("Model saved.")
 
-cat_pred = model.predict(x_test_scaled)
+cat_pred = model.predict(x_test)
 
 cm = confusion_matrix(y_test, cat_pred)
 plt.figure(figsize=(10, 9))

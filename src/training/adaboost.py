@@ -12,19 +12,14 @@ x_train, x_test, y_train, y_test = process_data('data.json')
 y_train = y_train - 1  # Adjust target labels to start from 0
 y_test = y_test - 1  # Adjust feature values to start from 0
 
-# Scale the features
-scaler = StandardScaler()
-x_train_scaled = scaler.fit_transform(x_train)
-x_test_scaled = scaler.transform(x_test)
-
 ada = AdaBoostClassifier(n_estimators=200, learning_rate=1, algorithm='SAMME')
 
 print("Training AdaBoost model...")
-ada_model = ada.fit(x_train_scaled, y_train)
+ada_model = ada.fit(x_train, y_train)
 print("AdaBoost model trained.")
 
-ada_train_pred = ada_model.predict(x_train_scaled)
-ada_test_pred = ada_model.predict(x_test_scaled)
+ada_train_pred = ada_model.predict(x_train)
+ada_test_pred = ada_model.predict(x_test)
 
 # Accuracy on training set
 train_accuracy = accuracy_score(y_train, ada_train_pred)
