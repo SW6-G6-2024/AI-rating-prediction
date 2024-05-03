@@ -6,7 +6,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-from data_splitter import separate_labels, split_data
+from training.data_splitter import separate_labels, split_data
 
 
 def load_data(path: str) -> list[dict]:

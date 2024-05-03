@@ -1,22 +1,13 @@
-import joblib
-from sklearn.preprocessing import StandardScaler
 from xgboost import XGBRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 from data_processing import process_data
 import matplotlib.pyplot as plt
 from xgboost import plot_importance
-import seaborn as sns
-import numpy as np
 import os
 
 x_train, x_test, y_train, y_test = process_data('data.json')
 y_train = y_train - 1  # Adjust target labels to start from 0
 y_test = y_test - 1  # Adjust feature values to start from 0
-
-# Scale features
-# scaler = StandardScaler()
-# x_train_scaled = scaler.fit_transform(x_train)
-# x_test_scaled = scaler.transform(x_test)
 
 # Train the XGBoost model
 xgb = XGBRegressor(n_estimators=2000, learning_rate=0.3, subsample=0.2)
@@ -29,9 +20,6 @@ print("XGBoost model trained.")
 # Save the trained model
 model_path = 'src/saved_models/xgb_model_reg.json'
 xgb_model.save_model(model_path)
-# save scaler
-scaler_path = 'src/saved_scaler/scaler.pkl'
-# joblib.dump(scaler, scaler_path)
 
 # Predictions
 xgb_train_pred = xgb_model.predict(x_train)
