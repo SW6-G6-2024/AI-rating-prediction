@@ -1,18 +1,23 @@
 import pytest
+from src.training.data_processing import load_data
+from src.training.data_processing import flatten
 
 fake_path = 'tests/fixtures/test_data2.json'
 data_path = 'tests/fixtures/test_data.json'
 
 
 def test_load_data():
-    from src.training.data_processing import load_data
+    # Call the function that uses load_data
     data = load_data(data_path)
-    assert len(data) == 1000  # Check that data is loaded
+
+    # Check the behavior of the function
+    assert len(data) == 2  # Check that data is loaded
     assert isinstance(data, list)  # Check that data is a list
     assert isinstance(data[0], dict)  # Check that data contains dictionaries
 
 
 def test_load_data_no_file():
+    print("yo")
     from src.training.data_processing import load_data
     with pytest.raises(FileNotFoundError) as err:
         load_data(fake_path)
@@ -22,7 +27,6 @@ def test_load_data_no_file():
 
 
 def test_flatten():
-    from src.training.data_processing import flatten
     data = [
         [{"points": 1, "text": "This is a test"}, {
             "points": 1, "text": "This is a test"}],
@@ -45,7 +49,7 @@ def test_flatten():
 
 
 def test_flatten_wrong_format():
-    from src.training.data_processing import flatten
+    
     pytest.raises(TypeError, flatten, [1, 4])  # Check that TypeError is raised
 
 

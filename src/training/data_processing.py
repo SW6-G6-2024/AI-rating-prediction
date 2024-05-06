@@ -6,7 +6,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-from src.training.data_splitter import separate_labels, split_data
+from training.data_splitter import separate_labels, split_data
 
 
 def load_data(path: str) -> list[dict]:
@@ -105,12 +105,12 @@ def process_data(path: str, plot: bool = False) -> tuple[list[dict], list[dict],
 		# Make data into a feature vector
 		balanced_data = [
   			[
-            entry['piste']['id'],
+            entry['piste']['_id'],
 				  	entry['piste']['direction'],
-						entry['year'],
-						entry['month'],
-						entry['day'],
-						entry['hours'],
+						entry['date']['year'],
+						entry['date']['month'],
+						entry['date']['day'],
+						entry['date']['hours'],
 						# entry['minutes'], # ignored minutes, as it is not relevant without hours
 						*entry['weather'].values()
 				] for entry in balanced_data
@@ -118,28 +118,3 @@ def process_data(path: str, plot: bool = False) -> tuple[list[dict], list[dict],
 	
 		x_train, x_test, y_train, y_test = split_data(balanced_data, labels)
 		return np.array(x_train), np.array(x_test), np.array(y_train), np.array(y_test)
-
-# non-balanced data
-data = load_data('data.json')
-# balanced data
-balanced_data = balance_data(data)
-
-if(len(argv) >= 2 and argv[1] == "plot"):
-	make_plot([data, balanced_data])
-
-data, labels = separate_labels(balanced_data)
-
-data = [
-  [
-        entry['piste']['id'],
-	  		entry['piste']['direction'],
-				entry['year'],
-				entry['month'],
-				entry['day'],
-				entry['hours'],
-				#entry['minutes'],
-				*entry['weather'].values()
-		] for entry in balanced_data
-]
-
-x_train, x_test, y_train, y_test = split_data(data, labels)
