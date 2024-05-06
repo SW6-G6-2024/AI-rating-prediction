@@ -1,42 +1,43 @@
 import json
+import pandas as pd
 from validators.validate_input import validate_input_data
 
-required_fields = {
-    'pisteList': list,
-    'weather': dict,
-    'date': dict
-}
-required_piste_info = {
-    'id': int,
-    'direction': float
-}
-weather_fields = {
-    'temperature': float,
-    'weatherCode': int,
-    'windSpeed': float,
-    'windDirection': int,
-    'snowfall': int,
-    'snowDepth': float,
-    'rain': int,
-    'visibility': float
-}
+required_fields = [
+    'pisteList',
+    'weather',
+    'date'
+]
+required_piste_info = [
+    'id',
+    'direction'
+]
+weather_fields = [
+    'temperature',
+    'weatherCode',
+    'windSpeed',
+    'windDirection',
+    'snowfall',
+    'snowDepth',
+    'rain',
+    'visibility'
+]
 date_fields = {
-    'year': int,
-    'month': int,
-    'day': int,
-    'hour': int
+    'year',
+    'month',
+    'day',
+    'hour'
 }
 
 
-def input_formatter(data: str) -> list[dict]:
+def input_formatter(data: str) -> pd.DataFrame:
     """
-    Creates a list of dictionaries from the input data, in order to match the expected input format for the model.
+    Creates a pandas DataFrame from the input data, in order to match the expected input format for the model.
 
     Args:
         data (json): The input data in json format.
 
     Returns:
-        list: A list of dictionaries, each containing the input data for a single piste.
+        pd.DataFrame: A DataFrame containing the input data for each piste.
     """
 
     # load json data
@@ -46,6 +47,37 @@ def input_formatter(data: str) -> list[dict]:
     piste_ids = load.get('pisteList')
     weather = load.get('weather')
     date = load.get('date')
+
+    # get weather fields
+    weather_data = {
+        'temperature': float(weather.get('temperature')),
+        'weatherCode': int(weather.get('weatherCode')),
+        'windSpeed': float(weather.get('windSpeed')),
+        'windDirection': int(weather.get('windDirection')),
+        'snowfall': int(weather.get('snowfall')),
+        'snowDepth': float(weather.get('snowDepth')),
+        'rain': int(weather.get('rain')),
+        'visibility': float(weather.get('visibility'))
+    }
+
+    # get date fields
+    date_data = {
+        'year': int(date.get('year')),
+        'month': int(date.get('month')),
+        'day': int(date.get('day')),
+        'hour': int(date.get('hour'))
+    }
+
+    # loop through each id and create dictionary
+    formatted_data = []
+    for piste_id in piste_ids:
+        piste_data = {
+            'piste': int(piste_id.get('id')),
+            'direction': float(piste_id.get('direction'))
+        }
+        piste_data.update(weather_data)
+        piste_data.update(date_data)
+        formatted_data.append(piste_data)
 
     # validate piste data
     validate_input_data(load, required_fields)
@@ -57,40 +89,7 @@ def input_formatter(data: str) -> list[dict]:
     # validate date data
     validate_input_data(date, date_fields)
 
-    # get weather fields
-    temperature = weather.get('temperature')
-    weatherCode = weather.get('weatherCode')
-    windSpeed = weather.get('windSpeed')
-    windDirection = weather.get('windDirection')
-    snowfall = weather.get('snowfall')
-    snowDepth = weather.get('snowDepth')
-    rain = weather.get('rain')
-    visibility = weather.get('visibility')
-
-    # get date fields
-    year = date.get('year')
-    month = date.get('month')
-    day = date.get('day')
-    hour = date.get('hour')
-
-    # loop through each id and create dictionary
-    formatted_data = []
-    for piste_id in piste_ids:
-        formatted_data.append({
-            'piste': int(piste_id.get('id')),
-            'direction': float(piste_id.get('direction')),
-            'temperature': float(temperature),
-            'weatherCode': int(weatherCode),
-            'windSpeed': float(windSpeed),
-            'windDirection': int(windDirection),
-            'snowfall': int(snowfall),
-            'snowDepth': float(snowDepth),
-            'rain': int(rain),
-            'visibility': float(visibility),
-            'year': int(year),
-            'month': int(month),
-            'day': int(day),
-            'hour': int(hour)
-        })
-
-    return formatted_data
+    # Set column names explicitly
+    column_names = ['piste', 'direction'] + list(weather_data.keys()) + list(date_data.keys())
+    
+    return pd.DataFrame(formatted_data, columns=column_names)

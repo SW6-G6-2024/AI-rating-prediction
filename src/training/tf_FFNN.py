@@ -14,11 +14,6 @@ x_train, x_test, y_train, y_test = process_data('data.json')
 y_train = y_train - 1  # Adjust target labels to start from 1
 y_test = y_test - 1  # Adjust feature values to start from 1
 
-# Scale the features (recommended for FFNN)
-scaler = StandardScaler()
-x_train_scaled = scaler.fit_transform(x_train)
-x_test_scaled = scaler.transform(x_test)
-
 # init FFNN model
 model = Sequential()
 model.add(Input(shape=(x_train_scaled.shape[1],))) # resolves warning
@@ -41,25 +36,25 @@ model.compile(optimizer='adam',
               loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
 history = model.fit(
-    x_train_scaled,
+    x_train,
     y_train, epochs=100,
     batch_size=32,
-    validation_data=(x_test_scaled, y_test),
+    validation_data=(x_test, y_test),
     callbacks=[early_stopping]
 )
 
 # Evaluate the model
-train_loss, train_accuracy = model.evaluate(x_train_scaled, y_train, verbose=0)
+train_loss, train_accuracy = model.evaluate(x_train, y_train, verbose=0)
 print("Training Accuracy:", train_accuracy)
 print("Training Loss:", train_loss)
 
 # Evaluate the model on test data
-test_loss, test_accuracy = model.evaluate(x_test_scaled, y_test, verbose=0)
+test_loss, test_accuracy = model.evaluate(x_test, y_test, verbose=0)
 print("Test Accuracy:", test_accuracy)
 print("Test Loss:", test_loss)
 
 
-# Plot training & validation loss values
+# Plot training and validation loss values
 plt.figure(figsize=(12, 7))
 # Plot loss
 plt.subplot(1, 2, 1)
@@ -96,7 +91,7 @@ else:
 
 # Plot Confusion matrix
 # Predict the values from the validation dataset
-y_pred = model.predict(x_test_scaled)
+y_pred = model.predict(x_test)
 # Convert predictions classes to one hot vectors
 y_pred = np.argmax(y_pred, axis=1)
 # compute the confusion matrix

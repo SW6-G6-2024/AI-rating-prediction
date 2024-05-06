@@ -10,10 +10,8 @@ def validate_input_data(data: dict, required_fields: list[str]):
         ValueError: If the input data is invalid.
     """
 
-    for field, expected_type in required_fields.items():
+    for field in required_fields:
         value = data.get(field)
         if value is None:
             raise ValueError(f"Missing required field: {field}")
-        if not isinstance(value, expected_type):
-            raise TypeError(f"Field {field} is not of type {expected_type}, found {type(value)} instead.")
 
